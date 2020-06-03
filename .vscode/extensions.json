@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "angular.ng-template",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "esbenp.prettier-vscode",
+    "pkief.material-icon-theme",
+    "christian-kohler.path-intellisense",
+    "Johnpapa.angular-essentials",
+    "eamodio.gitlens",
+    "donjayamanne.githistory"
+  ]
+}
