@@ -25,7 +25,7 @@
             "aot": false,
             "assets": ["projects/web-app/src/favicon.ico", "projects/web-app/src/assets"],
             "styles": ["projects/web-app/src/styles.scss"],
-            "scripts": ["node_modules/keycloak-js/dist/keycloak.min.js"]
+            "scripts": []
           },
           "configurations": {
             "production": {

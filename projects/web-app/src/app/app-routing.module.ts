@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './core/guards/auth.guard';
+import { AuthGuard } from './core/auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -11,9 +11,6 @@ const routes: Routes = [
   {
     path: 'support',
     canActivate: [AuthGuard],
-    data: {
-      roles: ['support']
-    },
     loadChildren: () => import('./pages/support/support.module').then((m) => m.SupportModule)
   },
   {

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AdsTheming } from '@adsystem/common';
-import { Observable } from 'rxjs';
-import { ThemeService } from '../../core/theme/theme.service';
 
 @Component({
   selector: 'web-client',
@@ -9,13 +7,17 @@ import { ThemeService } from '../../core/theme/theme.service';
   styleUrls: ['./client.component.scss']
 })
 export class ClientComponent implements OnInit {
-  clientTheme$: Observable<AdsTheming>;
+  clientTheme: AdsTheming;
   clientDarkTheme: boolean;
 
-  constructor(private themeService: ThemeService) {}
+  constructor() {}
 
   ngOnInit() {
-    this.clientTheme$ = this.themeService.getTheme();
+    this.clientTheme = {
+      primary: 'green',
+      accent: 'blue'
+    };
+
     this.clientDarkTheme = false;
   }
 }
