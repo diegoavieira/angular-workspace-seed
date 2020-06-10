@@ -12,25 +12,34 @@ export class AuthService {
 
   constructor() {}
 
-  async initUser() {
-    this.userManager = new UserManager(this.getUserManagerSettings());
-    this.user = await this.userManager.getUser();
+  async init() {
+    try {
+      this.userManager = new UserManager(this.getUserManagerSettings());
+      this.user = await this.userManager.getUser();
 
-    if (!this.user) {
-      await this.userManager.signinRedirect();
+      if (!this.user) {
+        this.userManager.signinRedirect();
+        return Promise.reject();
+      }
+    } catch (error) {
+      console.log(error);
     }
+  }
+
+  get userProfile(): any {
+    return this.user.profile;
+  }
+
+  get authorizationHeader(): string {
+    return `${this.user.token_type} ${this.user.access_token}`;
   }
 
   isLoggedIn(): boolean {
     return !this.user && !this.user.expired;
   }
 
-  getClaims(): any {
-    return this.user.profile;
-  }
-
-  getAuthorizationHeader(): string {
-    return `${this.user.token_type} ${this.user.access_token}`;
+  logout() {
+    this.userManager.signoutRedirect();
   }
 
   private getUserManagerSettings(): UserManagerSettings {
