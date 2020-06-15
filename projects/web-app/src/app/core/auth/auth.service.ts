@@ -9,6 +9,7 @@ const AUTH0_AUDIENCE = 'https://angular-workspace-seed.auth0.com/api/v2/';
 export class AuthService {
   private userManager: UserManager;
   private user: User;
+  private params = window.location.search;
 
   constructor() {}
 
@@ -18,8 +19,16 @@ export class AuthService {
       this.user = await this.userManager.getUser();
 
       if (!this.user) {
-        this.userManager.signinRedirect();
-        return Promise.reject();
+        if (this.params.includes('code') && this.params.includes('state')) {
+          this.user = await this.userManager.signinRedirectCallback();
+          window.history.replaceState({}, '', this.user.state);
+        } else {
+          this.userManager.signinRedirect({ state: window.location.href });
+        }
+      } else {
+        if (!this.isLoggedIn()) {
+          this.logout();
+        }
       }
     } catch (error) {
       console.log(error);
@@ -35,7 +44,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !this.user && !this.user.expired;
+    return this.user && !this.user.expired;
   }
 
   logout() {
@@ -46,9 +55,8 @@ export class AuthService {
     return {
       authority: AUTH0_DOMAIN,
       client_id: AUTH0_CLIENT_ID,
-      redirect_uri: 'http://localhost:4200/signin-callback.html',
-      silent_redirect_uri: 'http://localhost:4200/silent-callback.html',
-      post_logout_redirect_uri: 'http://localhost:4200',
+      redirect_uri: window.location.origin,
+      post_logout_redirect_uri: window.location.origin,
       response_type: 'code',
       response_mode: 'query',
       scope: 'openid profile',

@@ -23,12 +23,7 @@
             "polyfills": "projects/web-app/src/polyfills.ts",
             "tsConfig": "projects/web-app/tsconfig.app.json",
             "aot": false,
-            "assets": [
-              "projects/web-app/src/favicon.ico",
-              "projects/web-app/src/assets",
-              "projects/web-app/src/signin-callback.html",
-              "projects/web-app/src/silent-callback.html"
-            ],
+            "assets": ["projects/web-app/src/favicon.ico", "projects/web-app/src/assets"],
             "styles": ["projects/web-app/src/styles.scss"],
             "scripts": []
           },
