@@ -54,7 +54,6 @@ export class AuthService {
       authority: domain,
       client_id: clientId,
       redirect_uri: origin,
-      post_logout_redirect_uri: origin,
       response_type: 'code',
       response_mode: 'query',
       scope: 'openid profile',
@@ -62,12 +61,12 @@ export class AuthService {
       loadUserInfo: true,
       extraQueryParams: { audience },
       metadata: {
-        issuer: domain + '/',
-        authorization_endpoint: domain + '/authorize',
-        userinfo_endpoint: domain + '/userinfo',
-        end_session_endpoint: domain + '/v2/logout',
-        jwks_uri: domain + '/.well-known/jwks.json',
-        token_endpoint: domain + '/oauth/token'
+        issuer: `${domain}/`,
+        authorization_endpoint: `${domain}/authorize`,
+        userinfo_endpoint: `${domain}/userinfo`,
+        end_session_endpoint: `${domain}/v2/logout?returnTo=${origin}&client_id=${clientId}`,
+        jwks_uri: `${domain}/.well-known/jwks.json`,
+        token_endpoint: `${domain}/oauth/token`
       }
     };
   }
