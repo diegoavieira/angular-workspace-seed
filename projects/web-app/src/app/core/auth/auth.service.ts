@@ -4,7 +4,7 @@ import { UserManager, User, UserManagerSettings } from 'oidc-client';
 const { origin, search } = window.location;
 const domain = 'https://angular-workspace-seed.auth0.com';
 const clientId = 'pq8R2KLtw4wIFJpfXN7jGodX8ZPGxBVf';
-const audience = 'https://angular-workspace-seed.auth0.com/api/v2/';
+const audience = 'https://node-api';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -29,6 +29,8 @@ export class AuthService {
   }
 
   get userProfile(): any {
+    console.log(this.user.expired);
+    console.log(new Date(this.user.expires_at * 1000));
     return this.user.profile;
   }
 
