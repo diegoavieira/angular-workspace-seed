@@ -9,7 +9,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private configService: ConfigService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.configService.keycloak.authenticated) {
+    if (this.configService.keycloak && this.configService.keycloak.authenticated) {
       req = req.clone({
         setHeaders: {
           Authorization: `Bearer ${this.configService.keycloak.token}`
@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error) => {
         if (error instanceof HttpErrorResponse) {
           if (error.status === 403) {
-            // this.configService.keycloak.logout();
+            this.configService.keycloak.logout();
           }
         }
 

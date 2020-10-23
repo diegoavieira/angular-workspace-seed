@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfigService } from '../../../core/config/config.service';
 
 @Component({
   selector: 'web-dashboard',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor() {}
+  constructor(private configService: ConfigService) {}
 
   ngOnInit() {}
+
+  logout() {
+    this.configService.keycloak.logout();
+  }
 }
