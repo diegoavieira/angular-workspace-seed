@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Theme } from './theme';
-import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { environment } from '@enviroment';
 
 const THEME_KEY = 'THEME_KEY';
+
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   readonly apiUrl = environment.API_URL;
@@ -13,7 +12,7 @@ export class ThemeService {
   private themeSubject$ = new BehaviorSubject<Theme>(this.getStorage());
   private defaultTheme: Theme;
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.defaultTheme = {
       name: 'default_theme',
       primary: '#696969',
@@ -29,25 +28,20 @@ export class ThemeService {
     }
   }
 
-  setTheme(themeName: string): Observable<Theme> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const params = new HttpParams().set('name', themeName);
-
-    return this.http
-      .get<any>(`${this.apiUrl}/themes`, { headers, params })
-      .pipe(
-        map((res) => {
-          if (res.data.length === 1) {
-            const theme = res.data[0];
-
-            this.setStorage(theme);
-
-            return theme;
+  async setTheme(name: string) {
+    try {
+      await fetch(`${this.apiUrl}/themes/name/${name}`)
+        .then((result) => result.json())
+        .then((result) => {
+          if (result.data) {
+            this.setStorage(result.data);
           } else {
             this.resetThemeToDefault();
           }
-        })
-      );
+        });
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
   getTheme() {

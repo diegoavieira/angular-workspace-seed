@@ -3,9 +3,10 @@ import { KeycloakInstance } from 'keycloak-js';
 import { environment } from '@enviroment';
 import { Config } from './config';
 import { Router } from '@angular/router';
+import { ThemeService } from '../theme/theme.service';
 
 declare let Keycloak: any;
-const CONFIG_NAME_KEY = 'config_name_key';
+const CONFIG_NAME_KEY = 'CONFIG_NAME_KEY';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigService {
@@ -18,6 +19,7 @@ export class ConfigService {
 
   async init() {
     const router = this.injector.get(Router);
+    const themeService = this.injector.get(ThemeService);
     const configName = window.location.pathname.split('/')[1] || 'adsystem';
     const configNameStorage = localStorage.getItem(CONFIG_NAME_KEY);
     const logoutSession = configNameStorage && configNameStorage !== configName;
@@ -38,6 +40,7 @@ export class ConfigService {
       if (result.data) {
         this.config = result.data;
 
+        await themeService.setTheme(this.config.theme);
         await this.setKeycloak(this.config);
 
         localStorage.setItem(CONFIG_NAME_KEY, configName);
