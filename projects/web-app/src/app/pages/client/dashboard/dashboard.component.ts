@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'web-dashboard',
@@ -7,7 +6,7 @@ import { AuthService } from '../../../core/auth/auth.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private authService: AuthService) {}
+  constructor() {}
 
   ngOnInit() {}
 
